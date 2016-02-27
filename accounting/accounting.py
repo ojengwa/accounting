@@ -24,7 +24,7 @@ SOFTWARE.
 """
 import re
 
-from accounting.utils import is_str, check_type
+from accounting.utils import is_str, check_type, is_num
 
 __version__ = '0.0.2'
 
@@ -97,25 +97,38 @@ class Accounting(object):
 
         return format
 
-    """
-    API Methods.
+    def _check_precision(self, val, base):
+        """
+        Check and normalise the value of precision (must be positive integer).
 
-     Takes a string/array of strings, removes all formatting/cruft and
-     returns the raw float value
+        Args:
+            val (INT): must be positive integer
+            base (INT): Description
 
-     Decimal must be included in the regular expression to match floats
-      (defaults to Accounting.settings.number.decimal), so if the number uses
-      a non-standard decimal
-     separator, provide it as the second argument.
-     *
-     Also matches bracketed negatives (eg. "$ (1.99)" => -1.99)
+        Returns:
+            VAL (INT): Description
+        """
+        if not isinstance(val, int):
+            raise TypeError('The first argument must be an integer.')
+        val = round(abs(val))
+        val = (lambda num: base if is_num(num) else num)(val)
+        return val
 
-     Doesn't throw any errors (`None`s become 0) but this may change in future
-    """
-
-    def parse(self, value, decimal):
+    def parse(self, value, decimal='.'):
         """
         Summary.
+
+         Takes a string/array of strings, removes all formatting/cruft and
+         returns the raw float value
+
+         Decimal must be included in the regular expression to match floats
+          (defaults to Accounting.settings.number.decimal),
+          so if the number uses a non-standard decimal
+         separator, provide it as the second argument.
+         *
+         Also matches bracketed negatives (eg. "$ (1.99)" => -1.99)
+
+         Doesn't throw any errors (`None`s become 0) but this may change
 
         Args:
             value (TYPE): Description
@@ -140,4 +153,27 @@ class Accounting(object):
 
         # Build regex to strip out everything except digits,
         # decimal point and minus sign
-        regex = re.compile("[^0-9-" + decimal + "]", ["g"])
+        regex = re.compile("[^0-9-" + decimal + "]")
+        unformatted = str(value)
+        unformatted = re.sub('/\((.*)\)/', "-$1", unformatted)
+        unformatted = re.sub(regex, '', unformatted)
+        unformatted = unformatted.replace('.', decimal)
+        formatted = (lambda val: unformatted if val else 0)(
+            is_num(unformatted))
+
+        return formatted
+
+    def to_fixed(self, value, precision):
+        """Implementation that treats floats more like decimals.
+
+        Fixes binary rounding issues (eg. (0.615).toFixed(2) === "0.61")
+        that present problems for accounting and finance-related software.
+
+        """
+        precision = self._check_precision(
+            precision, self.settings['number']['precision'])
+
+        power = pow(10, precision)
+        # Multiply up by precision, round accurately, then divide
+        power = round(self.parse(value) * power) / power
+        return '{0} {1}.{2}f'.format(value, precision, precision)
