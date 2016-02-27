@@ -42,6 +42,24 @@ def is_str(value):
         return isinstance(value, str)
 
 
+def is_num(value):
+    """Test whether supplied parameter is a number.
+
+    Given a value, this function will test if it is number both on
+    Python 3 and Python 2.
+
+    Args:
+        value (object): The value to test.
+
+    Returns:
+        True/False (bool): returns True if value is of type string, else False.
+    """
+    if isinstance(value, 'int') or isinstance(value, 'float'):
+        return True
+
+    return False
+
+
 def check_precision(val, digits):
     try:
         val = round(val, digits)
@@ -53,18 +71,18 @@ def check_precision(val, digits):
 
 def clean_type(obj):
     try:
-        if str(type(obj)) == "<type 'unicode'>":
+        if isinstance(obj, unicode):
             return 'str'
-    except TypeError:
-        if (type(obj)) == "<type 'str'>":
+    except NameError:
+        if isinstance(obj, str):
             return 'str'
-    if str(type(obj)) == "<type 'list'>":
+    if isinstance(obj, list):
         return 'list'
-    elif str(type(obj)) == "<type 'dict'>":
+    elif isinstance(obj, dict):
         return 'dict'
-    elif str(type(obj)) == "<type 'int'>":
+    elif isinstance(obj, int):
         return 'int'
-    elif str(type(obj)) == "<type 'float'>":
+    elif isinstance(obj, float):
         return 'float'
     else:
         raise ValueError('Invalid obj argument. Only one of str, int,'
@@ -72,5 +90,5 @@ def clean_type(obj):
                          'Recieved: %s' % str(type(obj)))
 
 
-def check_type(obj, cls):
-    return clean_type(obj) == cls
+def check_type(obj, class_):
+    return clean_type(obj) == class_
