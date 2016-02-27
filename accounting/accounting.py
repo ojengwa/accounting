@@ -26,8 +26,6 @@ import re
 
 from accounting.utils import is_str, check_type, is_num
 
-__version__ = '0.0.2'
-
 
 class Accounting(object):
     """docstring for Accounting.
@@ -177,3 +175,42 @@ class Accounting(object):
         # Multiply up by precision, round accurately, then divide
         power = round(self.parse(value) * power) / power
         return '{0} {1}.{2}f'.format(value, precision, precision)
+
+    def format(self, number, precision, thousand, decimal):
+        """Format a given number.
+
+        Format a number, with comma-separated thousands and
+        custom precision/decimal places
+
+        Localise by overriding the precision and thousand / decimal separators
+        2nd parameter `precision` can be an object matching `settings.number`
+
+        Args:
+            number (TYPE): Description
+            precision (TYPE): Description
+            thousand (TYPE): Description
+            decimal (TYPE): Description
+
+        Returns:
+            name (TYPE): Description
+        """
+        # Resursively format lists
+        if check_type(number, 'list'):
+            return map(lambda val: self.format(val, precision, thousand,
+                                               decimal), number)
+        # Clean up number
+        number = self.parse(number)
+
+        # Build options object from second param (if object) or all params,
+        # extending defaults
+        if check_type(precision, 'dict'):
+            options = (self.settings['number'].update(precision))
+
+        # Clean up precision
+        # precision =
+        # if number > 0:
+
+        # useFormat = number > 0 ? formats.pos:
+        #     number < 0 ? formats.neg:
+        #         formats.zero
+        return options
