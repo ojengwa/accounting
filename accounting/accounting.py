@@ -95,7 +95,7 @@ class Accounting(object):
 
         return format
 
-    def _check_precision(self, val, base):
+    def _check_precision(self, val, base=0):
         """
         Check and normalise the value of precision (must be positive integer).
 
@@ -205,12 +205,20 @@ class Accounting(object):
         # extending defaults
         if check_type(precision, 'dict'):
             options = (self.settings['number'].update(precision))
-
+        print(options)
         # Clean up precision
-        # precision =
-        # if number > 0:
+        precision = self._check_precision(options['precision'])
+        negative = (lambda num: "-" if num < 0 else "")(number)
+        base = str(int(self.to_fixed(abs(number) or 0, precision)), 10)
+        mod = (lambda num: len(num) % 3 if len(num) > 3 else 0)(base)
 
-        # useFormat = number > 0 ? formats.pos:
-        #     number < 0 ? formats.neg:
-        #         formats.zero
-        return options
+        # Format the number:
+        num = negative + (lambda num: base[0:num] if num else '')(mod)
+
+        num += re.sub('/(\d{3})(?=\d)/g', '$1' +
+                      options['thousand'], base[mod:])
+        num += (lambda val: options[
+            'decimal'] + self.to_fixed(abs(number), precision)
+            .split('.')[1] if val else '')(precision)
+
+        return num
