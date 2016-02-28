@@ -1,0 +1,10 @@
+site_name: accounting.
+theme: mkdocs
+repo_url: https://github.com/ojengwa/accounting/
+repo_name: Github Repo
+site_description: accounting is a Python package providing simple and advanced number, money and currency formatting.
+site_author: Bernard Ojengwa
+copyright: ©2016, Bernard Ojengwa
+
+extra:
+    version: 1.5.0
