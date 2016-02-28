@@ -54,10 +54,7 @@ def is_num(value):
     Returns:
         True/False (bool): returns True if value is of type string, else False.
     """
-    if isinstance(value, 'int') or isinstance(value, 'float'):
-        return True
-
-    return False
+    return(isinstance(value, 'int') or isinstance(value, 'float'))
 
 
 def check_precision(val, digits):
