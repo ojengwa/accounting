@@ -24,7 +24,7 @@ SOFTWARE.
 """
 import re
 
-from accounting.utils import is_str, check_type, is_num
+from .utils import is_str, check_type, is_num
 
 
 class Accounting(object):

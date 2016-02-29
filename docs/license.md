@@ -1,5 +1,3 @@
-"""Base Project Module.
-
 The MIT License (MIT)
 
 Copyright (c) 2016 Ojengwa Bernard
@@ -21,18 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-"""
-from .accounting import Accounting
-from .utils import (is_num, is_str, check_type, check_precision)
-
-
-__version__ = '1.0.0'
-
-__all__ = [
-    'Accounting',
-    '__version__',
-    'is_num',
-    'is_str',
-    'check_precision',
-    'check_type'
-]
