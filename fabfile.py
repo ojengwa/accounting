@@ -2,7 +2,7 @@
 
 from fabric.api import local, task
 
-from paystack.version import VERSION
+from accounting import __version__
 
 
 @task
@@ -21,7 +21,7 @@ def clean():
     """Remove all the .pyc files."""
     local("find . -name '*.pyc' -print0|xargs -0 rm", capture=False)
     # Remove the dist folder
-    local("rm -rf ./dist && rm -rf paystack.egg-info")
+    local("rm -rf ./dist && rm -rf accounting.egg-info")
     local("rm -rf **__pycache__* && rm -rf coverage*")
     local("rm -rf ./temp && rm -rf ./build")
 
@@ -62,14 +62,14 @@ def publish(msg="checkpoint: publish package"):
 @task
 def check():
     """Test project."""
-    test = local("coverage erase && nosetests  --with-coverage --cover-package=paystack/"
+    test = local("coverage erase && nosetests  --with-coverage --cover-package=accounting/"
                  )
     if test.succeeded:
         return test
 
 
 @task
-def tag(version=VERSION):
+def tag(version=__version__):
     """Deploy a version tag."""
     build = local("git tag {0}".format(version))
     if build.succeeded:
