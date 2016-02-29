@@ -26,7 +26,7 @@ from accounting.accounting import Accounting
 from accounting.utils import (is_num, is_str, check_type, check_precision)
 
 
-__version__ = '0.0.1'
+__version__ = '1.0.0'
 
 __all__ = [
     'Accounting',
