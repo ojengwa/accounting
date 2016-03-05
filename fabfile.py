@@ -47,8 +47,8 @@ def publish(msg="checkpoint: publish package"):
     """
     test = check()
     if test.succeeded:
-        clean()
-        push(msg)
+        # clean()
+        # push(msg)
         sdist = local("python setup.py sdist")
         if sdist.succeeded:
             build = local(
