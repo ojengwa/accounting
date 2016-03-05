@@ -38,7 +38,7 @@ def is_str(value):
     """
     try:
         return isinstance(value, basestring)
-    except TypeError:
+    except TypeError:  # pragma: no cover
         return isinstance(value, str)
 
 
@@ -54,13 +54,13 @@ def is_num(value):
     Returns:
         True/False (bool): returns True if value is of type string, else False.
     """
-    return(isinstance(value, 'int') or isinstance(value, 'float'))
+    return(isinstance(value, int) or isinstance(value, float))
 
 
 def check_precision(val, digits):
     try:
         val = round(val, digits)
-    except TypeError:
+    except TypeError:  # pragma: no cover
         val = round(val)
 
     return (lambda val: digits if not val else val)(val)
@@ -70,9 +70,11 @@ def clean_type(obj):
     try:
         if isinstance(obj, unicode):
             return 'str'
-    except NameError:
+    except NameError:  # pragma: no cover
         if isinstance(obj, str):
             return 'str'
+    if isinstance(obj, str):
+        return 'str'
     if isinstance(obj, list):
         return 'list'
     elif isinstance(obj, dict):
@@ -81,7 +83,7 @@ def clean_type(obj):
         return 'int'
     elif isinstance(obj, float):
         return 'float'
-    else:
+    else:  # pragma: no cover
         raise ValueError('Invalid obj argument. Only one of str, int,'
                          ' float, list and dicts are supported.'
                          'Recieved: %s' % str(type(obj)))
