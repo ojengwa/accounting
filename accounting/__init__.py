@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 from .accounting import Accounting
-from .utils import (is_num, is_str, check_type, check_precision)
+from .utils import (is_num, is_str, check_type, change_precision)
 
 
 __version__ = '1.0.0'
@@ -33,6 +33,6 @@ __all__ = [
     '__version__',
     'is_num',
     'is_str',
-    'check_precision',
+    'change_precision',
     'check_type'
 ]

@@ -95,7 +95,7 @@ class Accounting(object):
 
         return format
 
-    def _check_precision(self, val, base=0):
+    def _change_precision(self, val, base=0):
         """
         Check and normalise the value of precision (must be positive integer).
 
@@ -168,7 +168,7 @@ class Accounting(object):
         that present problems for accounting and finance-related software.
 
         """
-        precision = self._check_precision(
+        precision = self._change_precision(
             precision, self.settings['number']['precision'])
 
         power = pow(10, precision)
@@ -206,7 +206,7 @@ class Accounting(object):
             options = (self.settings['number'].update(kwargs))
 
         # Clean up precision
-        precision = self._check_precision(options['precision'])
+        precision = self._change_precision(options['precision'])
         negative = (lambda num: "-" if num < 0 else "")(number)
         base = str(int(self.to_fixed(abs(number) or 0, precision)), 10)
         mod = (lambda num: len(num) % 3 if len(num) > 3 else 0)(base)
@@ -261,7 +261,7 @@ class Accounting(object):
         # Choose which format to use for this value
         use_format = (lambda num: formats['pos'] if num > 0 else formats[
                       'neg'] if num < 0 else formats['zero'])(number)
-        precision = self._check_precision(number, options['precision'])
+        precision = self._change_precision(number, options['precision'])
         thousands = options['thousand']
         decimal = options['decimal']
         formater = self.format(abs(number), precision, thousands, decimal)

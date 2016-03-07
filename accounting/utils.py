@@ -57,7 +57,7 @@ def is_num(value):
     return(isinstance(value, int) or isinstance(value, float))
 
 
-def check_precision(val, digits):
+def change_precision(val, digits):
     try:
         val = round(val, digits)
     except TypeError:  # pragma: no cover

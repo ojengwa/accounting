@@ -1,6 +1,6 @@
 """Test suites."""
 import unittest
-from accounting.utils import (is_str, is_num, check_precision,
+from accounting.utils import (is_str, is_num, change_precision,
                               check_type, clean_type)
 from accounting import Accounting
 import sys
@@ -33,13 +33,14 @@ class UtilsTestCase(unittest.TestCase):
     def check_type_test(self):
         self.assertTrue(check_type([], 'list'))
 
-    def check_precision_test(self):
-        self.assertEqual(check_precision(19.20049, 4), 19.2005)
+    def change_precision_test(self):
+        self.assertEqual(change_precision(19.20049, 4), 19.2005)
 
     def clean_type_test(self):
         self.assertEqual(clean_type({}), 'dict')
 
     unittest.skipIf(sys.version_info[0] > 2, 'Test for unicode type.')
+
     def unicode_clean_type_test(self):
         self.assertEqual(clean_type(u'Hello'), 'str')
 
@@ -52,3 +53,31 @@ class UtilsTestCase(unittest.TestCase):
     def float_clean_type_test(self):
         self.assertEqual(clean_type(419.0), 'float')
 
+
+class AccountingTestCase(unittest.TestCase):
+    """docstring for AccountingTestCase."""
+
+    def setUp(self):
+        """
+        test up method.
+
+        Returns:
+            none (NoneType): None
+        """
+        self.options = {
+            'number':
+            {
+                'thousand': ',',
+                'precision': 0,
+                'decimal': '.',
+                'grouping': 3
+            }
+        }
+        self.accounting = Accounting(self.options)
+
+    def settings_is_set_test(self):
+        self.assertIsInstance(self.accounting.settings, dict)
+
+    def settings_contains_something_test(self):
+        self.assertDictContainsSubset(
+            self.options, self.accounting.settings)
