@@ -67,7 +67,7 @@ def check():
         "--cover-package=accounting/"
     )
     if test.succeeded:
-        return test
+        print(test)
 
 
 @task
