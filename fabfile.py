@@ -66,8 +66,7 @@ def check():
         "coverage erase && nosetests  --with-coverage "
         "--cover-package=accounting/"
     )
-    if test.succeeded:
-        print(test)
+
 
 
 @task
