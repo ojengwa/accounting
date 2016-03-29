@@ -62,8 +62,10 @@ def publish(msg="checkpoint: publish package"):
 @task
 def check():
     """Test project."""
-    test = local("coverage erase && nosetests  --with-coverage --cover-package=accounting/"
-                 )
+    test = local(
+        "coverage erase && nosetests  --with-coverage "
+        "--cover-package=accounting/"
+    )
     if test.succeeded:
         return test
 
