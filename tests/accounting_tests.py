@@ -65,8 +65,7 @@ class AccountingTestCase(unittest.TestCase):
             none (NoneType): None
         """
         self.options = {
-            'number':
-            {
+            'number': {
                 'thousand': ',',
                 'precision': 0,
                 'decimal': '.',
